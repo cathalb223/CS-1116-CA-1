@@ -4,7 +4,12 @@ from wtforms.validators import InputRequired, EqualTo
 
 
 class RegistrationForm(FlaskForm):
-    user_id = StringField("Band:", validators=[InputRequired()])
+    user_id = StringField("User ID: ", validators=[InputRequired()])
     password = PasswordField("Password:", validators=[InputRequired()])
-    password2 = PasswordField("Password:", validators=[InputRequired(),EqualTo("password")])
+    password2 = PasswordField("Confirm Password:", validators=[InputRequired(), EqualTo("password")])
+    submit = SubmitField("Submit")
+
+class LoginForm(FlaskForm):
+    user_id = StringField("User ID: ", validators=[InputRequired()])
+    password = PasswordField("Password:", validators=[InputRequired()])
     submit = SubmitField("Submit")
