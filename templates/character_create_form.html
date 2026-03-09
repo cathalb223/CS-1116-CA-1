@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+    <form action="" method="POST" novalidate>
+        {{ form.hidden_tag() }} 
+
+        {{form.CharName.label}}
+        {{form.CharName()}}
+        {% for error in form.CharName.errors %}
+            {{error}}
+        {% endfor %}
+
+        <br />
+
+        {{form.species.label}}
+        {{form.species()}}
+         {% for error in form.species.errors %}
+            {{error}}
+        {% endfor %}
+
+        <br>
+
+        {{form.level.label}}
+        {{form.level()}}
+         {% for error in form.level.errors %}
+            {{error}}
+        {% endfor %}
+
+        <br>
+        {{form.className.label}}
+        {{form.className()}}
+         {% for error in form.className.errors %}
+            {{error}}
+        {% endfor %}
+
+        <br>
+        {{form.submit()}}
+    </form>
+    
+    
+{% endblock %} 

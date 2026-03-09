@@ -2,7 +2,7 @@ from flask import Flask, render_template, session, redirect, url_for, g, request
 from database import get_db, close_db
 from flask_session import Session
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import LoginForm, RegistrationForm
+from forms import LoginForm, RegistrationForm, CreateForm, CharacterForm
 from functools import wraps
 
 app = Flask(__name__)
@@ -45,7 +45,7 @@ def register():
             form.user_id.errors.append("User ID conflict")
         else:
 
-            gigs = db.execute("""INSERT INTO users (user_id, password)
+            db.execute("""INSERT INTO users (user_id, password)
                               VALUES (?, ?);""", (user_id, generate_password_hash(password) ))
             db.commit()
             return redirect(url_for("login"))
@@ -78,6 +78,53 @@ def login():
 
     return render_template("login_form.html", 
                            form=form)
+
+@app.route("/Create", methods=["GET", "POST"])
+@login_required
+def Create():
+    form = CreateForm()
+
+    if form.validate_on_submit():
+        CharName = form.CharName.data
+        species = form.species.data
+        level = form.level.data
+        className = form.className.data
+
+        
+        db = get_db()
+        db.execute("""INSERT INTO characters (name, species, level, class, user_id)
+                              VALUES (?, ?, ?, ?, ?);""", (CharName,species,level,className,session["user_id"]))
+        db.commit()
+        
+        return redirect(url_for("Characters"))
+
+
+    return render_template("character_create_form.html", 
+                           form=form)
+
+@app.route("/Characters", methods=["GET", "POST"])
+def Characters():
+    form = CharacterForm()
+    db = get_db()
+    characters = db.execute("""SELECT * FROM characters""").fetchall()
+
+    if form.validate_on_submit():
+        search = {"name": form.CharName.data, "species" : form.species.data, "level" : form.level.data, "class": form.className.data, "user_id": form.user_id.data}
+        query = "SELECT * FROM characters WHERE 1=1"
+        for item in search:
+            print(item, search[item])
+            if search[item] == None or search[item] == "":
+                query += f" AND {item} IS NOT NULL"
+            else:
+                query += f" AND {item} = '{search[item]}'"
+
+        print(query)
+                                                  
+        characters = db.execute(query).fetchall()
+    return render_template("characters.html", characters = characters, form = form)
+
+
+
 
 
 @app.route("/logout")

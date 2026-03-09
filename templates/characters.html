@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+    <form action="" method="POST" novalidate>
+        {{ form.hidden_tag() }} 
+
+        {{form.user_id.label}}
+        {{form.user_id()}}
+
+        {{form.CharName.label}}
+        {{form.CharName()}}
+
+
+        {{form.species.label}}
+        {{form.species()}}
+
+        {{form.className.label}}
+        {{form.className()}}
+
+        {{form.submit()}}
+        </form>
+    <table>
+        
+    {% for character in characters %}
+        <tr>
+        <td>{{ character["user_id"]}}: </td> 
+        <td>{{ character["name"]}}</td> 
+        <td>{{ character["species"] }}</td>
+        <td>{{ character["class"]}}</td> 
+        <td>{{ character["level"] }}</td>
+        </tr>
+    {%endfor%}
+    </table>
+
+{% endblock %}

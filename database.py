@@ -10,6 +10,7 @@ def get_db():
             detect_types=sqlite3.PARSE_DECLTYPES
         )
         g.db.row_factory = sqlite3.Row
+        g.db.execute("PRAGMA foreign_keys = ON") #learned from sqlite documentation, foreign keys apparently aren't enforced by default.
     return g.db
 
 def close_db(e=None):
