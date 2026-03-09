@@ -111,16 +111,20 @@ def Characters():
     if form.validate_on_submit():
         search = {"name": form.CharName.data, "species" : form.species.data, "level" : form.level.data, "class": form.className.data, "user_id": form.user_id.data}
         query = "SELECT * FROM characters WHERE 1=1"
-        for item in search:
-            print(item, search[item])
-            if search[item] == None or search[item] == "":
-                query += f" AND {item} IS NOT NULL"
+        terms = []
+        for column in search:
+            if search[column] == None or search[column] == "":
+                query += f" AND ? IS NOT NULL"
+                terms.append(column)
             else:
-                query += f" AND {item} = '{search[item]}'"
+                query += f" AND {column} = ?"
+                terms.append(search[column])
+
+
 
         print(query)
                                                   
-        characters = db.execute(query).fetchall()
+        characters = db.execute(query,tuple(terms)).fetchall()
     return render_template("characters.html", characters = characters, form = form)
 
 
