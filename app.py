@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from forms import LoginForm, RegistrationForm, CreateForm, CharacterForm
 from functools import wraps
 
+
 app = Flask(__name__)
 app.teardown_appcontext(close_db)
 app.config["SECRET_KEY"] = "Something-something-something"
@@ -102,33 +103,73 @@ def Create():
     return render_template("character_create_form.html", 
                            form=form)
 
+
+
 @app.route("/Characters", methods=["GET", "POST"])
 def Characters():
+
+    def most_popular(lis):
+        names = {}
+        most = -1
+        name = ""
+
+        for item in lis:
+            if item in names:
+                names[item] += 1
+            else:
+                names[item] = 1
+    
+        for key in names:
+            if names[key] > most:
+                most = names[key]
+                name = key
+    
+        return name
+
     form = CharacterForm()
     db = get_db()
     characters = db.execute("""SELECT * FROM characters""").fetchall()
+
+
+    speciesPop = []
+    levelMean = 0
+    classNamePop = []
+
+
+    for items in characters:
+        speciesPop.append(items["species"])
+        levelMean += items["level"]
+        classNamePop.append(items["class"])
+    
+    levelMean = levelMean/len(characters)
+    speciesPop = most_popular(speciesPop)
+    classNamePop = most_popular(classNamePop)
+
 
     if form.validate_on_submit():
         search = {"name": form.CharName.data, "species" : form.species.data, "level" : form.level.data, "class": form.className.data, "user_id": form.user_id.data}
         query = "SELECT * FROM characters WHERE 1=1"
         terms = []
+
         for column in search:
-            if search[column] == None or search[column] == "":
-                query += f" AND ? IS NOT NULL"
-                terms.append(column)
-            else:
+            if search[column] != None and search[column] != "":
                 query += f" AND {column} = ?"
                 terms.append(search[column])
-
-
-
-        print(query)
                                                   
         characters = db.execute(query,tuple(terms)).fetchall()
-    return render_template("characters.html", characters = characters, form = form)
+    
+
+    return render_template("characters.html", characters = characters, form = form, levelMean = levelMean, speciesPop = speciesPop, classNamePop = classNamePop)
 
 
+@app.route("/user/<user_id>", methods=["GET", "POST"])
+def user(user_id):
 
+    db = get_db()
+    user = db.execute("""SELECT * FROM users WHERE user_id = ?""",(user_id,)).fetchone()
+    characters = db.execute("""SELECT * FROM characters WHERE user_id = ?""", (user_id,)).fetchall()
+
+    return render_template("user.html", characters = characters, user = user)
 
 
 @app.route("/logout")
@@ -136,3 +177,6 @@ def Characters():
 def logout():
     session.clear()
     return redirect(url_for("index"))
+
+
+            

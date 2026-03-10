@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+    
+    <h1>{{user['user_id']}}</h1>
+    <table>
+    {% for character in characters %}
+        <tr>
+        <td>{{ character["name"]}}</td> 
+        <td>{{ character["species"] }}</td>
+        <td>{{ character["class"]}}</td> 
+        <td>{{ character["level"] }}</td>
+        </tr>
+    {%endfor%}
+    </table>
+{% endblock %} 

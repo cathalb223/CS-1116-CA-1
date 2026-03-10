@@ -48,6 +48,7 @@ CREATE TABLE in_campaign
 (
     user_id TEXT NOT NULL,
     campaign_id TEXT NOT NULL,
+    confirmed INTEGAR NOT NULL DEFAULT 0
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id)
 );

@@ -17,13 +17,16 @@
         {{form.className.label}}
         {{form.className()}}
 
+        {{form.level.label}}
+        {{form.level(value = "")}}
+
         {{form.submit()}}
         </form>
     <table>
         
     {% for character in characters %}
         <tr>
-        <td>{{ character["user_id"]}}: </td> 
+        <td><a href="{{ url_for('user', user_id = character['user_id'])}}">{{ character["user_id"]}}</a> </td> 
         <td>{{ character["name"]}}</td> 
         <td>{{ character["species"] }}</td>
         <td>{{ character["class"]}}</td> 
@@ -31,5 +34,13 @@
         </tr>
     {%endfor%}
     </table>
+
+    <section>
+        <h2><a href="">Statistics</a></h2>
+        {{levelMean}}
+        {{speciesPop}}
+        {{classNamePop}}
+    </section>
+    
 
 {% endblock %}
