@@ -25,8 +25,9 @@ DROP TABLE IF EXISTS friends;
 
 CREATE TABLE friends
 (
-    user_id TEXT ,
-    friend_id TEXT,
+    user_id TEXT NOT NULL,
+    friend_id TEXT NOT NULL,
+    accepted INTEGAR NOT NULL DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     FOREIGN KEY (friend_id) REFERENCES users(user_id)
 );
@@ -38,7 +39,7 @@ CREATE TABLE campaigns
     campaign_id INTEGER PRIMARY KEY AUTOINCREMENT,
     dm_id TEXT NOT NULL,
     name TEXT NOT NULL,
-    status TEXT NOT NULL,
+    description TEXT NOT NULL,
     FOREIGN KEY (dm_id) REFERENCES users(user_id)
 );
 
@@ -47,9 +48,8 @@ DROP TABLE IF EXISTS in_campaign;
 CREATE TABLE in_campaign
 (
     user_id TEXT NOT NULL,
-    campaign_id TEXT NOT NULL,
-    confirmed INTEGAR NOT NULL DEFAULT 0
+    campaign_id INTEGER NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id)
+    FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id) ON DELETE CASCADE
 );
 

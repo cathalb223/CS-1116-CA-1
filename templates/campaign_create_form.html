@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+    <section>
+    <h2>Create Campaign</h2>
+    <form action="" method="POST" novalidate>
+        {{ form.hidden_tag() }} 
+
+        {{form.name.label}}
+        {{form.name()}}
+        {% for error in form.name.errors %}
+            {{error}}
+        {% endfor %}
+
+        <br />
+
+        {{form.description.label}}
+        {{form.description()}}
+         {% for error in form.description.errors %}
+            {{error}}
+        {% endfor %}
+
+        <br>
+
+        {{form.players.label}}
+        {{form.players( multiple=True )}}
+         {% for error in form.players.errors %}
+            {{error}}
+        {% endfor %}
+        <p><strong>Note!</strong> Please shift click or hold click to select multiple. Only friends can be chosen</p>
+
+        <br>
+        {{form.submit()}}
+    </form>
+    </section>
+    
+    
+{% endblock %} 

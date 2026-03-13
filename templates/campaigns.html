@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+    <table>
+        <caption>Campaigns</caption>
+        <tr>
+            <th scope="col">Dungeon Master</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+        </tr>
+    {% for campaign in campaigns %}
+        <tr>
+        <td><a href="{{ url_for('user', user_id = campaign['dm_id'])}}">{{ campaign["dm_id"]}}</a> </td> 
+        <td>{{ campaign["name"]}}</td> 
+        <td>{{ campaign["description"] }}</td>
+        </tr>
+        <td colspan="3">
+            <table>
+                <tr>
+                <th scope="row" >Players</th>
+                {% for player in players %}
+                    {% if player["campaign_id"] == campaign["campaign_id"] %}
+                        <td><a href="{{ url_for('user', user_id = player['user_id'])}}">{{ player["user_id"]}}</a> </td> 
+                    {% endif %}
+                {%endfor%}
+                </tr>
+            </table>
+        </td>
+    {%endfor%}
+    </table>
+    
+
+{% endblock %}

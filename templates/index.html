@@ -1,8 +1,40 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static' , filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static' , filename='indexstyles.css') }}">
+    <title>Dice Jail</title>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Welcome to Dice Jail!</h1>
+    
+            <p>
+                Welcome to Dice Jail, a companion app for dungeons and dragons, 
+                please have a look around!
+            </p>
+        </header>
+        <nav>
+            {% if g.user %}
+            <p><a href="{{ url_for('user', user_id = g.user)}}">My Account: {{g.user}}</a></p>
+            <p><a href="{{ url_for('logout')}}">Logout</a></p>
+            <p><a href="{{ url_for('Create')}}">Create New Character</a></p>
+            <p><a href="{{ url_for('Create_campaign')}}">Create New Campaign</a></p>
 
-{% block main_content %}
-    <h1>Welcome to Dice Jail!</h1>
-    <p>Insert information</p>
+            {% else %}
+            <p><a href="{{ url_for('register')}}">Register</a></p>
+            <p><a href="{{ url_for('login')}}">Login</a></p>
+            {% endif %}
+            <p><a href="{{ url_for('index')}}">Home</a></p>
+            <p><a href="{{ url_for('Campaigns')}}">Campaigns</a></p>
+            <p><a href="{{ url_for('Characters')}}">Characters</a></p>
+        </nav>
+    </main>
+    
+</body>
+</html>
     
     
-{% endblock %} 

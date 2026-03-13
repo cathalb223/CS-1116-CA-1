@@ -1,0 +1,13 @@
+
+nav {
+     display: block;
+}
+
+nav > p {
+    border: 1px solid var(--base-colour);
+    border-radius: 10px;
+    padding: 0.2em;
+    margin-bottom: 1em;
+    background-color: var(--bg--colour);
+    width: fit-content;
+}

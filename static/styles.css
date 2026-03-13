@@ -1,0 +1,91 @@
+@font-face {
+    font-family:Metamorphous;
+    src: url(Metamorphous-Regular.ttf)
+}
+
+:root {
+    font-size: 16px;
+    height: 100%;
+}
+
+html {
+    --base-colour: #311a0a;
+    --bg--colour: #b49260ce;
+    background-image: url('mobile_map.jpg'), url('tile_widescreen.jpg');
+    background-position: top right, center;
+    background-repeat: no-repeat, repeat;
+    background-size: contain;
+    background-color: var(--bg--colour);
+
+}
+
+body{
+    font-family: Metamorphous, serif;
+    color: var(--base-colour);
+    text-decoration: none;
+
+}
+
+nav {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
+
+main {
+    max-width: 90%;
+    margin: auto;
+}
+
+section {
+    border: 0.2em dotted var(--base-colour);
+    border-radius: 10px;
+    padding: 0.2em;
+    margin-bottom: 1em;
+    background-color: var(--bg--colour);
+    width: 90%;
+    margin:1% auto;
+
+}
+
+header {
+    border: 0.2em dotted var(--base-colour);
+    border-radius: 10px;
+    padding: 0.2em;
+    margin-bottom: 1em;
+    background-color: var(--bg--colour);
+}
+
+a {
+    color: #5b3922;
+}
+
+th, td {
+    border: 0.1em dotted var(--base-colour);
+    padding: 1em;
+    background-color: var(--bg--colour);
+}
+
+table {
+    border-collapse: collapse
+}
+
+caption {
+    font-weight: bold;
+    padding-bottom: 1em;
+}
+
+caption+tbody>tr>th {
+    background-color: var(--base-colour);
+    color: var(--bg--colour);
+}
+
+input, select {
+    background-color: var(--base-colour);
+    color: var(--bg--colour);
+    border: #654834;
+}
+
+
+

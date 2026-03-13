@@ -1,16 +1,98 @@
 {% extends "base.html" %}
 
 {% block main_content %}
-    
-    <h1>{{user['user_id']}}</h1>
+    <section>
+    <h1>{{user_data['user_id']}}</h1>
+
+    {% if user_data['user_id'] != g.user %}
+
+        <form action="" method="POST" novalidate>
+            {{ form.hidden_tag() }}
+            {{form.submit()}}
+
+            {% for error in form.submit.errors %}
+            {{error}}
+            {% endfor %}
+        </form>
+
+    {% endif %}    
+
+    <h2>Characters</h2>
     <table>
+        <caption>Characters</caption>
+        <th scope="col">Name</th>
+        <th scope="col">Species</th>
+        <th scope="col">Class</th>
+        <th scope="col">Level</th>
     {% for character in characters %}
         <tr>
         <td>{{ character["name"]}}</td> 
         <td>{{ character["species"] }}</td>
         <td>{{ character["class"]}}</td> 
         <td>{{ character["level"] }}</td>
+        {% if user_data['user_id'] == g.user%}
+        <td><a href="{{ url_for('delete_character', character_id = character['character_id'])}}">Delete?</a></td>
+        {%endif%}
         </tr>
     {%endfor%}
     </table>
+    </section>
+
+    
+    
+    {% if user_data['user_id'] == g.user %}
+    <section>
+    <h2>Friends</h2>
+    <table>
+    {% for friend in friends %}
+        <tr>
+        <td><a href="{{ url_for('user', user_id = friend)}}">{{ friend }}</a></td> 
+        </tr>
+    {%endfor%}
+    </table>
+    <h2>Incoming Requests</h2>
+    <table>
+    {% for requests in incoming %}
+        <tr>
+        <td><a href="{{ url_for('user', user_id = requests)}}">{{ requests }}</a></td> 
+        </tr>
+    {%endfor%}
+    </table>
+    <h2>Outgoing Requests</h2>
+    <table>
+    {% for requests in outgoing %}
+        <tr>
+        <td><a href="{{ url_for('user', user_id = requests)}}">{{ requests }}</a></td> 
+        </tr>
+    {%endfor%}
+    </table>
+    
+    </section>
+    {% endif %}
+
+    <section>
+    <h2>In Campaigns</h2>
+    <table>
+    {% for campaign in in_campaigns %}
+        <tr>
+        <td>{{ campaign["name"] }}</td> 
+        </tr>
+    {%endfor%}
+    </table>
+
+    <h2>Running Campaigns</h2>
+    <table>
+    {% for campaign in running %}
+        <tr>
+        <td>{{ campaign["name"] }} 
+            {% if user_data['user_id'] == g.user %}
+            <a href="{{url_for('delete_campaign', campaign_id=campaign['campaign_id'])}}">Delete?</a> 
+            {%endif%}
+        </td> 
+        </tr>
+    {%endfor%}
+    </table>
+    </section>
+
+
 {% endblock %} 

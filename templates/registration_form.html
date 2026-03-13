@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block main_content %}
+    <section>
     <h2>Register</h2>
     <form action="" method="POST" novalidate>
         {{ form.hidden_tag() }} 
@@ -28,5 +29,6 @@
         <br>
         {{form.submit()}}
     </form>
+    </section>
     
 {% endblock %}
