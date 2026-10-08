@@ -5,15 +5,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from forms import LoginForm, RegistrationForm, CreateForm, CharacterForm, Create_campaignForm, FriendForm
 from functools import wraps
 
-"""Hello! Thank you for your time grading this assignment. 
-Your username and login is Derek Bridge and 123 respectively.
-To test friend requests John Doe's password is 123.
-To become friends a request must be sent from both parties """
+
 
 
 app = Flask(__name__)
 app.teardown_appcontext(close_db)
-app.config["SECRET_KEY"] = "Something-something-something"
+app.config["SECRET_KEY"] = "PLACEHOLDER-FOR-SECURITY-REASONS"
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 
